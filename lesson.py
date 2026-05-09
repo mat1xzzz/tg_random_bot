@@ -13,17 +13,17 @@ bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
 def cmd_start(message: Message) -> None:
         user_name = message.from_user.username
 
-        text = {
+        text = (
             f"Привет {user_name}! \n\n"
             f"Я бот для генерации рандомных приколов. \n\n"
             f"/coin - подбросить монетку\n"
             f"/dice - подбросить кубик\n"
             f"/\n"
             f"/\n"
-            f"Все зепустилось, ГАЗ!"
-        }
+            f"Все запустилось, ГАЗ!"
+        )
 
-        bot.reply_to(message = message, text=text)
+        bot.reply_to(message=message, text=text)
 
 
 #------------------------------------------------
@@ -54,6 +54,15 @@ def cmd_dice(message: Message) -> None:
 
     dice_result = f"Выпало: {dice_emoji[number]} ({number})"
     bot.reply_to(message = message, text = dice_result)
+
+
+#------------------------------------------------
+#          ГЕНЕРАТОР ПАРОЛЕЙ
+#------------------------------------------------
+
+@bot.message_handler(commands=['help'])
+def cmd_password(message: Message) -> None:
+    password = random
 
 
 if __name__ == '__main__':
