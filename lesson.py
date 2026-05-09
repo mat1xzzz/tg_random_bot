@@ -1,6 +1,9 @@
 import telebot
 import random
+import string
+
 from telebot.types import Message
+
 
 bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
 
@@ -8,6 +11,9 @@ bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
 #------------------------------------------------
 #     НАЧАЛЬНЫЙ ТЕКСТ ПРИ ЗАПУСКЕ БОТА
 #------------------------------------------------
+
+DEFAULT_PASSWORD_LENGTH = 12
+
 
 @bot.message_handler(commands=['start'])
 def cmd_start(message: Message) -> None:
@@ -18,7 +24,7 @@ def cmd_start(message: Message) -> None:
             f"Я бот для генерации рандомных приколов. \n\n"
             f"/coin - подбросить монетку\n"
             f"/dice - подбросить кубик\n"
-            f"/\n"
+            f"/password - сгенерировать пароль \n"
             f"/\n"
             f"Все запустилось, ГАЗ!"
         )
@@ -59,10 +65,23 @@ def cmd_dice(message: Message) -> None:
 #------------------------------------------------
 #          ГЕНЕРАТОР ПАРОЛЕЙ
 #------------------------------------------------
-
-@bot.message_handler(commands=['help'])
+@bot.message_handler(commands=['password'])
 def cmd_password(message: Message) -> None:
-    password = random
+    # /password = generates password in 12 symbols
+
+    characters = string.ascii_letters + string.digits + "!-_$*?"
+    length = DEFAULT_PASSWORD_LENGTH
+    password_result = f"".join(random.choices(characters, k=DEFAULT_PASSWORD_LENGTH))
+
+    text = (
+        f"Ваш пароль ({length} символов):\n\n"
+        f"```{password_result}```\n\n" 
+        f"Нажми на пароль, чтобы скопировать"
+    )
+
+    bot.reply_to(message=message, text=text, parse_mode="Markdown")
+
+
 
 
 if __name__ == '__main__':
