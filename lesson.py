@@ -22,6 +22,13 @@ def cmd_start(message: Message) -> None:
         bot.reply_to(message = message, text=text)
 
 
+#           ПОДБРОС МОНЕТЫ
+@bot.message_handler(commands=['coin'])
+def cmd_coin(message: Message) -> None:
+    result = random.choice([f"ОРЕЛ!", "РЕШКА!"])
+    bot.reply_to(message = message, text = result)
+
+
 if __name__ == '__main__':
     print("ГАЗ!, все зепустилось")
     bot.infinity_polling()
