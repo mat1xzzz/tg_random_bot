@@ -5,7 +5,7 @@ import string
 from telebot.types import Message
 
 
-bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
+bot = telebot.TeleBot(token='8713712741:AAFO2v6VP877jqV5EcoDPnRJhmfcfR55oBo')
 
 
 #------------------------------------------------
@@ -13,6 +13,8 @@ bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
 #------------------------------------------------
 
 DEFAULT_PASSWORD_LENGTH = 12
+DEFAULT_RANDOM_MIN = 1
+DEFAULT_RANDOM_MAX = 100
 
 
 @bot.message_handler(commands=['start'])
@@ -24,8 +26,8 @@ def cmd_start(message: Message) -> None:
             f"Я бот для генерации рандомных приколов. \n\n"
             f"/coin - подбросить монетку\n"
             f"/dice - подбросить кубик\n"
-            f"/password - сгенерировать пароль \n"
-            f"/\n"
+            f"/password - сгенерировать пароль (12 символов) \n"
+            f"/number - сгенерировать рандомное число\n\n"
             f"Все запустилось, ГАЗ!"
         )
 
@@ -81,8 +83,25 @@ def cmd_password(message: Message) -> None:
 
     bot.reply_to(message=message, text=text, parse_mode="Markdown")
 
+#------------------------------------------------
+#          ГЕНЕРАТОР РАНДОМНЫХ ЧИСЕЛ
+#------------------------------------------------
+@bot.message_handler(commands=['number'])
+def cmd_random(message: Message) -> None:
+    number = random.randint(DEFAULT_RANDOM_MIN, DEFAULT_RANDOM_MAX)
+    min_mum = DEFAULT_RANDOM_MIN
+    max_mum = DEFAULT_RANDOM_MAX
 
+    if number == 67:
+        print("АХАХАХАХ SIX-SEVEN")
 
+    joke_text = "Выпало: 67! АХАХАХАХ SIX-SEVEN" if number == 67 else f"Выпало: {number}\n\nЖаль не 67 :(((\n\nЕще раз?"
+    text = (
+        f"Случайное число от {DEFAULT_RANDOM_MIN} до {DEFAULT_RANDOM_MAX}:\n\n"
+        f"{joke_text}"
+    )
+
+    bot.reply_to(message=message, text=text)
 
 if __name__ == '__main__':
     print("ГАЗ!, все зепустилось")
