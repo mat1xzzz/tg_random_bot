@@ -4,7 +4,11 @@ from telebot.types import Message
 
 bot = telebot.TeleBot(token='8665934273:AAFwfGsZfJ7FIdXoYYkbgBAi0dq_owcPzO0')
 
+
+#------------------------------------------------
 #     НАЧАЛЬНЫЙ ТЕКСТ ПРИ ЗАПУСКЕ БОТА
+#------------------------------------------------
+
 @bot.message_handler(commands=['start'])
 def cmd_start(message: Message) -> None:
         user_name = message.from_user.username
@@ -13,20 +17,43 @@ def cmd_start(message: Message) -> None:
             f"Привет {user_name}! \n\n"
             f"Я бот для генерации рандомных приколов. \n\n"
             f"/coin - подбросить монетку\n"
+            f"/dice - подбросить кубик\n"
             f"/\n"
             f"/\n"
-            f"/\n"
-            f"Попробуй прямо сейчас"
+            f"Все зепустилось, ГАЗ!"
         }
 
         bot.reply_to(message = message, text=text)
 
 
+#------------------------------------------------
 #           ПОДБРОС МОНЕТЫ
+#------------------------------------------------
+
 @bot.message_handler(commands=['coin'])
 def cmd_coin(message: Message) -> None:
-    result = random.choice([f"ОРЕЛ!", "РЕШКА!"])
-    bot.reply_to(message = message, text = result)
+    coin_result = random.choice([f"ОРЕЛ!", "РЕШКА!"])
+    bot.reply_to(message = message, text = coin_result)
+
+
+#------------------------------------------------
+#                ПОДБРОС КУБИКА
+#------------------------------------------------
+@bot.message_handler(commands=['dice'])
+def cmd_dice(message: Message) -> None:
+    # 1 ⚀ 2 ⚂ 3 ⚁ 4 ⚃ 5 ⚄ 6 ⚅
+    number = random.randint(1, 6)
+    dice_emoji = {
+        1: "⚀",
+        2: "⚁" ,
+        3: "⚁",
+        4: "⚃",
+        5: "⚄",
+        6: "⚅",
+    }
+
+    dice_result = f"Выпало: {dice_emoji[number]} ({number})"
+    bot.reply_to(message = message, text = dice_result)
 
 
 if __name__ == '__main__':
